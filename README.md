@@ -16,11 +16,11 @@ Term: Spring 2020
 
 + The following questions will be solved:
 
-+ + 1.How to choose a topic and related words?
++ 1.How to choose a topic and related words?
 
-+ + 2.How to choose emotion type in your lyrics?
++ 2.How to choose emotion type in your lyrics?
 
-+ + 3.How to decide the length of the lyrics?
++ 3.How to decide the length of the lyrics?
 
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
