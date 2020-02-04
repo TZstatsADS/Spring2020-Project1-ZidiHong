@@ -9,10 +9,16 @@ This is the first and only *individual* (as opposed to *team*) this semester.
 
 Term: Spring 2020
 
-+ Projec title: Lorem ipsum dolor sit amet
-+ This project is conducted by [your name]
++ Projec title: Hip-Hop Lyrics Generator
++ This project is conducted by Zidi Hong
 
-+ Project summary: [a short summary] Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
++ Project summary: The purpose of this data story is mimicking how a lyrics generator works in somehow to write hip-hop lyrics. During the process, I use topic modeling to choose the topic and words in my lyrics, and use sentiment analysis to set the emotion type of my lyrics. Then I decide the length of lyrics. Finally I can get a demo of hip-hop lyrics.
+
+The following questions will be solved:
+1.How to choose a topic in hip-hop lyrics?
+2.How to choose the words in hip-hop lyrics?
+3.How to choose emotion type in your lyrics?
+4.How to decide the length of the lyrics?
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
