@@ -12,9 +12,9 @@ Term: Spring 2020
 + Projec title: Hip-Hop Lyrics Generator
 + This project is conducted by Zidi Hong
 
-+ Project summary: The purpose of this data story is mimicking how a lyrics generator works in somehow to write hip-hop lyrics. During the process, I use topic modeling to choose the topic and words in my lyrics, and use sentiment analysis to set the emotion type. Then I decide the lyrics length. Finally I can get a demo of hip-hop lyrics.
++ Project summary: Nowadays, there are many lyrics generators online. You can input any word you want, then get the lyrics in the blink of an eye. The purpose of this data story is try to mimic online lyrics generator to some extent. During the process, I use topic modeling to choose the topic and words in my lyrics, and sentiment analysis to set the emotion type. Then I decide the lyrics length. Finally I get a demo of hip-hop lyrics.
 
-+ The following questions will be solved:
++ The following questions will be answered:
 
 + 1.How to choose a topic and related words?
 
