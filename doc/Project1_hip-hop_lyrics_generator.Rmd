@@ -6,19 +6,18 @@ output:
 ---
 
 ```{r setup, include=FALSE,echo=FALSE}
-#Set path 
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_knit$set(root.dir = "..")
 getwd()
 ```
 
-# Hip-Hop Lyrics Generator
-![avatar](~/Documents/GitHub/Spring2020-Project1-ZidiHong/figs/fire-mixtape.png)    
-As you can see, there are many online lyrics generator online. You can impute any word you want and get the lyrics at the moment of clicking. The purpose of this data story is mimicking how a lyrics generator works in somehow to write hip-hop lyrics.
+# Hip-Hop Lyrics Generator  
+![avatar](~/Documents/GitHub/Spring2020-Project1-ZidiHong/figs/maxresdefault.jpg)    
+Nowadays, there are many lyrics generators online. You can input any word you want and get the lyrics in the blink of an eye. The purpose of this data story is try to mimic online lyrics generator to some extent.
          
-The reason why I choose hip-hop, this specific gener, is that lyrics are much more important to hip-hop than any other genre. The core of hip-hop is communication. Rappers express their attitude towards life through the lyrics they write. And it is very common that rappers may often use the same beat (especially in freestyle battle), but never share the same lyrics.
+The reason why I choose hip-hop, this specific type of music, is that lyrics are much more important to hip-hop than any other. The core of hip-hop is communication. Rappers express their attitude towards life through the lyrics they write. And it is very common that rappers may often use the same beat (especially in freestyle battle), but never share the same lyrics.
        
-Another personal reason is that my favoriate artist is a rapper. I just want to test, in data-driven perspective, can I, a hip-hop freshman, write hip-hop lyrics like him?
+Another personal reason is that my favoriate artist is a rapper. I just want to test, in a data-driven perspective, can I write hip-hop lyrics like him in somehow?
 
 
 
@@ -73,9 +72,9 @@ overall_hip_hop<-tidy_hip_hop%>%group_by(term)%>%summarize(count=sum(count))
 
 ## General Image of Hip-Hop Lyrics    
 First, I can get a general image of hip-hop lyrics.   
-The most frequently used words are "**love**","**niggas**","**shit**","**girl**","**time**","**baby**" and so on.      
+From the wordcloud, the most frequently used words are "**love**","**shit**","**girl**","**baby**" and so on.      
 
-The results show that most of the hip-hop songs express the affection, and **love & peace** is always the leading theme of hip-hop. At the same time,because of the nature of hip-hop music,there are many words that **represent black people's characteristics**, as well as many **informal words** and **abbreviations**.          
+The results show that most of the hip-hop songs express affection, and **love & peace** is always the leading theme of hip-hop. At the same time, because of the nature of hip-hop music, there are many **informal words** as well as **abbreviations**.          
 
 
 
@@ -88,9 +87,9 @@ wordcloud(words=overall_hip_hop$term, overall_hip_hop$count, scale=c(4,0.5),use.
 
 
 ## Choose A Topic
-For different topics, the selected words are also different, so we conducted topic modeling analysis on the data.     
+For different topics, the selected words are also different, so I conduct topic modeling analysis on the data.     
          
-Here I use **LDA Topic Modeling** to analyze lyrics and find out the hidden topics in hip-hop. After some trials, I find out there 6 topics in hip-hop music as follows:    
+Here, I use **LDA Topic Modeling** to analyze lyrics and find out the hidden topics in hip-hop. After some trials, I find out there are 6 topics in hip-hop music as follows:    
 
 **Topic 1**: Girl & Love   
 **Topic 2**: Depression   
@@ -106,6 +105,7 @@ For each topic, I choose 10 of most frequently used words, then I can get the hi
 #tdm_hip_hop<-tidy_hip_hop%>%cast_dtm(document = document, term = term, value = count)
 #save(tdm_hip_hop, file="./output/tdm_hip_hop.RData")
 load('./output/tdm_hip_hop.RData') 
+
 #run LDA
 topic_lda <- LDA(tdm_hip_hop, k = 6, control = list(seed = 1234))
 hip_hop_topics <- tidy(topic_lda, matrix = "beta")
@@ -126,7 +126,7 @@ hip_hop_terms %>%
 
 ```
 
-Then I extract some lyrics of each topic as follows:     
+Then I extract some lyrics from each topic as follows:     
 
 ```{r,message=FALSE,warning=FALSE,echo=FALSE}
 #extract lyrics which contains most frequently used words from each topic.
@@ -162,26 +162,31 @@ Wine yuh waist gal, lose yuh face gal"
 **Topic 6: Party & Rock**    
 "Party people   
 Party people   
-Can y'all get funky?"  
+Can y'all get funky?"       
 
+It turns out that these lyrics match their topics very well. However, there are cases that one lyric may contain several topics. For example, I find out that the lyrics in topic 6 also appears in topic 4. This means that some rappers don't just use a single topic to create their lyrics.         
 
 ## Emotion Type
-Then I need to decide that which one is more preferrable? A broken-heart love story or A exhilarating happy ending?     
+Then I need to choose a emotion type of my lyrics.    
+Which one is more preferrable?     
+A broken-heart love story or a great happy ending?     
 
-So I conduct the **sentiment analysis**, and there are 10 emotions which are **anger**, **anticipation**, **disgust**, **fear**, **joy**, **sadness**, **surprise**, **trust**, **negative** and **positive**.   
+So I conduct the **Sentiment Analysis**, and there are 10 emotions which are **anger**, **anticipation**, **disgust**, **fear**, **joy**, **sadness**, **surprise**, **trust**, **negative** and **positive**.   
    
-The histagram shows the total number of words in hip-hop music in each emotion.        
+The histagram shows the total number of words in each emotion.            
 
-The results show that among all hip hop songs, the words expressing negative emotions are the most and the words expressing surprise emotions are the least.
+The results show that among all hip hop songs, the number of words expressing negative emotions is the most, while the number of words expressing surprise is the least.    
 
 
 ```{r,echo=FALSE}
+#data processing
 hip_hop_lyrics<-unlist(str_split(Hip_Hop$stemmedwords," "))
 #ty_sentiment<-get_nrc_sentiment(hip_hop_lyrics)
 #save(ty_sentiment, file="~/output/ty_sentiment.RData")
 load('./output/ty_sentiment.RData') 
 sentimentscores<-data.frame(colSums(ty_sentiment[,]))
 
+#sentiment analysis
 names(sentimentscores) <- "Score"
 sentimentscores <- cbind("sentiment"=rownames(sentimentscores),sentimentscores)
 rownames(sentimentscores) <- NULL
@@ -195,11 +200,12 @@ ggtitle("Total sentiment based on the number of words")+
 theme_minimal() 
 ```
 
-Then I allocate anger,disgust,fear,sadness and negative as a general negative emotion, and anticipation, joy, surprise, trust and positice as a general positive emotion.    
+Then I assign anger,disgust,fear,sadness and negative as a general negative emotion, and others as a general positive emotion.    
 
-It turns out the ratio of negative emotions to positive emotions is **1.2**, which means that the words that express the two emotions in hip-hop songs are not much different in numbers, but the negative emotions are slightly more. From this, I speculate that most rappers may want to vent their unhappiness in their songs.   
+It turns out the ratio of negative emotion to positive emotion is **1.2**, which means that the words that express the two emotions in hip-hop songs are not much different in numbers, but the negative emotions are slightly more. From this, I guess that most rappers may tend to express their dissatisfaction rather than their happy moments in their songs.   
 
 ```{r,echo=FALSE}
+#compute the ratio
 (sentimentscores$Score[1]+sentimentscores$Score[3]+sentimentscores$Score[4]+sentimentscores$Score[6]+sentimentscores$Score[9])/(sentimentscores$Score[2]+sentimentscores$Score[5]+sentimentscores$Score[7]+sentimentscores$Score[8]+sentimentscores$Score[10])
 ```
 
@@ -207,9 +213,10 @@ It turns out the ratio of negative emotions to positive emotions is **1.2**, whi
 ## Lyrics Length
 How many words does a hip-hop song contain in general?   
 
-At last, I analyze the length of hip-hop lyrics. As the results shown below, in average, a hip-hop song contains 196 words, the minimal length of a hip-hop song. And one hip-hop song can contain at most 1711 words and at least 2 words.   
+At last, I analyze the length of hip-hop lyrics. As the results shown below, in average, a hip-hop song contains 196 words. And one hip-hop song can contain at most 1711 words and at least 2 words.   
 
 ```{r,echo=FALSE}
+#length of hip-hop lyrics
 lyrics_len<-c()
 for (i in 1:8905)
 {
@@ -218,20 +225,21 @@ for (i in 1:8905)
 summary(lyrics_len)
 ```
 
-## Let's Generate A Hip-Hop Lyric   
+## Let's Generate Hip-Hop Lyrics  
 ### Choose several topics to write lyrics    
-Based on the analysis above, I plan to choose **topic 1, 4 and 6** to write a **sad** song which contains **196 words**.      
+Based on the analysis above, I plan to choose **topic 1, 4 and 6** to write a **not "that negative"** song which contains **196 words**.      
 
-Then I need to decide how many words each topic contains. According to the statistics, I compute ratio of each topic, the number of words contained in each topic to the total number of words, and take each ratio as the probability of each topic in a song.   
+According to the statistics, I compute the ratio of each topic,which is the number of words from each topic to the total number of words, and take each ratio as the probability of each topic in a song.   
 
 ```{r pressure, echo=FALSE}
+
 ldaOut.topics <- as.matrix(topics(topic_lda))
 table(c(1:6, ldaOut.topics))
 
 ```
 
 ## Get the number of words of each topic in my lyrics     
-According to the ratios I compute above, I can get the number of words in each topic. So there will be 95 words from topic 1, 17 words from topic 4 and 84 words from topic 6 in my song.    
+According to the ratios I computed above, I can get the number of words in each topic. So there will be 95 words from topic 1, 17 words from topic 4 and 84 words from topic 6 in my song.    
 
 Then I pick up 95 of the most commonly used words in topic 1, 17 of most commonly used words in topic 4 and 84 of most commonly used words in topic 6 to form my hip-hop lyric.    
 
@@ -250,11 +258,11 @@ ldaOut.terms
 
 ```
 
-I arranged all the words in a series of combinations and permutations so that each sentence could clearly convey the message.      
+Now I can write my own lyrics!   
 
-**Note that: In order to make each sentence clear and coherent,and rhyme sentences as much as I can, I add and subtract some words appropriately.**    
+**Note that: There are 174 unique words in total. In order to make each sentence clear and coherent, and rhyme sentences as much as possible, I add and drop some words appropriately and some words I used more than once.**    
 
-Finally I write a song contains 182 words in total.    
+Finally I write a song contains 172 words in total.    
 
 ##Demo
 
@@ -262,13 +270,12 @@ Girl you know I love you so much
 Gotta go here you shake your body   
 Dance like a roll I party with my bro   
 Now I’m feeling hot then we take it slow    
-I’ve got my new watch and suckers both are fake   
-My lyrics  verse  riding on my Porsche   
-Then we talk about the story on record    
+I’ve got my new watch and damn it's fake   
+Riding on my Porsche   
+Then we talk about the story   
 Oh that girl   
 She wanna some fun   
 You know the beat   
-The tears on her cheek   
 Watch my flow ladies love my biz   
 I don’t have too much time to show you my rhyme   
 But frankly bro I’m not a Stan wow   
@@ -286,16 +293,17 @@ Now I just need a bottle of wine
 
 ##Conclusion
 
-Although I call this data analysis process a lyrics generator, it is not a generator in the strict sense. If all the words are randomly arranged and combined, the final lyrics may be incoherent and the message conveyed is a little bit weird. Therefore, in the end, I arranged all the words artificially to form lyrics.
+1.Although I call this data analysis process a lyrics generator, it is not a generator in the strict sense. If all the words are randomly arranged and combined, the final lyrics may be incoherent and the message conveyed is a little bit weird. Therefore, in the end, I arranged all the words artificially to form lyrics.
 
-Following the steps,finally I get the lyrics. However, when we look closely at the lyrics, we can see that the context may not be coherent, and more importantly, the entire lyrics may only convey some **superficial information**. It does not convey any complex feelings or thoughts.     
+2.Following the steps,finally I get the lyrics. However, when we look closely at the lyrics, we can see that the context may not be coherent, and more importantly, the entire lyrics may only convey some **trivial information**. It does not convey any complex feelings or thoughts.     
 
-Overall,indeed,we can generate hip-hop lyrics in this way. But it needs **life experience**, **professional skills** and **a passion for hip-hop music** to write great hip-hop lyrics like my idol.   
+Overall,indeed,we can generate hip-hop lyrics in this way. But it needs **life experience**, **professional skills** and **passion for hip-hop music** to write great hip-hop lyrics.   
 
 ##Refernece
 1.Preetish.(2018,July 18).Data Visualization and Analysis of Taylor Swift’s Song Lyrics.*Promptcloud.*Retrieved Feburary 1,2020,from https://www.promptcloud.com/blog/data-visualization-text-mining-taylor-swift-song-lyrics/    
 
 2.kratiSaxena.(2018,Feburary).Let's analyze the song lyrics!*Kaggle.*Retrieved Feburary 2,2020,from https://www.kaggle.com/kratisaxena/let-s-analyze-the-song-lyrics?scriptVersionId=4468644    
 
-3.Bence Tóth.(2019,May 18).From Metallica to Adele — Text Analysis of successful song lyrics with R.*towardsdatascience.*Retrieved January 30,2020,from https://towardsdatascience.com/text-analysis-of-successful-song-lyrics-e41a4ccb26f5       
+3.Bence Tóth.(2019,May 18).From Metallica to Adele — Text Analysis of successful song lyrics with R.*towardsdatascience.*Retrieved January 30,2020,from https://towardsdatascience.com/text-analysis-of-successful-song-lyrics-e41a4ccb26f5          
 
+![Tape in fire](~/Documents/GitHub/Spring2020-Project1-ZidiHong/figs/fire-mixtape.png)   
